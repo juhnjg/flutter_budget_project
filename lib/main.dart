@@ -24,6 +24,10 @@ class MyHomePage extends StatelessWidget {
         amount: 16.53,
         date: DateTime.now())
   ];
+  // String titleInput;
+  // String amountInput;
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +40,41 @@ class MyHomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Container(
-                  width: double.infinity,
-                  child: Card(
-                    color: Colors.blue,
-                    child: Text('CHART!'),
-                    elevation: 5,
-                  )),
+                width: double.infinity,
+                child: Card(
+                  color: Colors.blue,
+                  child: Text('CHART!'),
+                  elevation: 5,
+                ),
+              ),
+              Card(
+                elevation: 4,
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Title'),
+                        onChanged: (val) {
+                          titleInput = val;
+                        },
+                      ),
+                      TextField(
+                        decoration: InputDecoration(labelText: 'Amount'),
+                        onChanged: (val) => amountInput = val,
+                      ),
+                      FlatButton(
+                        child: Text('Add Transaction'),
+                        textColor: Colors.purple,
+                        onPressed: () {
+
+                        },
+                      )
+                    ],
+                  ),
+                ),
+              ),
               Column(
                 children: transactions.map((tx) {
                   return Card(
@@ -60,7 +93,7 @@ class MyHomePage extends StatelessWidget {
                                   fontSize: 20,
                                   color: Colors.purple))),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,                        
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Container(
                               child: Text(
