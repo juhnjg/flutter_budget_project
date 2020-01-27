@@ -10,25 +10,34 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'User Expensus',
+      title: 'Personal Expenses',
       theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          accentColor: Colors.orange,
-          fontFamily: 'Quicksand',
-          textTheme: ThemeData.light().textTheme.copyWith(
+        primarySwatch: Colors.deepOrange,
+        accentColor: Colors.orange,
+        fontFamily: 'Quicksand',
+        textTheme: ThemeData.light().textTheme.copyWith(
               title: TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18)),
-          accentTextTheme: ThemeData.dark().textTheme.copyWith(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              button: TextStyle(fontFamily: 'OpenSans',            
+              fontSize: 16,
+              color: Colors.white)
+            ),
+        accentTextTheme: ThemeData.dark().textTheme.copyWith(
               button: TextStyle(
                   color: Colors.deepOrangeAccent,
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.bold,
-                  fontSize: 16)),
-          appBarTheme: AppBarTheme(
-              textTheme: ThemeData.light().textTheme.copyWith(
-                  title: TextStyle(fontFamily: 'OpenSans', fontSize: 20)))),
+                  fontSize: 16),
+            ),
+        appBarTheme: AppBarTheme(
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(fontFamily: 'OpenSans', fontSize: 20),
+              ),
+        ),
+      ),
       home: MyHomePage(),
     );
   }
