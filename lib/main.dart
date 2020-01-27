@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cal_budget/widgets/chart.dart';
 import './widgets/newTransaction.dart';
-import './models/tansaction.dart';
+import './models/transaction.dart';
 import './widgets/transaction_list.dart';
 
 void main() => runApp(MyApp());
@@ -9,7 +10,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'User Expensus',
+      theme: ThemeData(
+          primarySwatch: Colors.deepOrange,
+          accentColor: Colors.orange,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+              title: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18)),
+          accentTextTheme: ThemeData.dark().textTheme.copyWith(
+              button: TextStyle(
+                  color: Colors.deepOrangeAccent,
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16)),
+          appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                  title: TextStyle(fontFamily: 'OpenSans', fontSize: 20)))),
       home: MyHomePage(),
     );
   }
@@ -21,15 +40,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', title: 'New Shoes', amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: 't2',
-        title: 'Weekly Groceries',
-        amount: 16.53,
-        date: DateTime.now())
-  ];
+  final List<Transaction> _userTransactions = [];
+
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(DateTime.now().subtract(Duration(days: 7)));
+    }).toList();
+  }
 
   void _addNewTransaction(String txTitle, double txAmount) {
     final newTx = Transaction(
@@ -52,12 +69,18 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  void _clearAllTransaction() {
+    setState(() {
+      _userTransactions.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('User expensus'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
@@ -69,15 +92,22 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('CHART!'),
-                elevation: 5,
-              ),
-            ),
-            TransactionList(_userTransactions)
+            Chart(_recentTransactions),
+            TransactionList(_userTransactions),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                FlatButton(
+                  child: Text(
+                    'Remove all items',
+                    style: Theme.of(context).accentTextTheme.button,
+                  ),
+                  onPressed: () {
+                    _clearAllTransaction();
+                  },
+                )
+              ],
+            )
           ]),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
